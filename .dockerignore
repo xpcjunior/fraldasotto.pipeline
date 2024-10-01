@@ -1,0 +1,12 @@
+astro
+.git
+.env
+.env.example
+airflow_settings.yaml
+logs/
+.venv
+airflow.db
+airflow.cfg
+.python-version
+notebooks/
+firebase-adminsdk.example.json
