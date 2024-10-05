@@ -1,22 +1,20 @@
-import os
 from airflow import DAG
+from airflow.models import Variable
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 
-from dotenv import load_dotenv
 from include.gsheettab import GSheetTab
 from include.transform import Transform
 from include.load import Load
 
-load_dotenv()
 
 load = Load()
-gsheet = GSheetTab(os.getenv("ID_G_SHEET"))
+gsheet = GSheetTab(Variable.get("ID_G_SHEET"))
 
 def extracao(**context):
-    df_ganhadas = gsheet.download_tab(os.getenv("ID_TAB_G_SHEET_GANHADAS"))
-    df_compradas = gsheet.download_tab(os.getenv("ID_TAB_G_SHEET_COMPRADAS"))
-    df_utilizadas = gsheet.download_tab(os.getenv("ID_TAB_G_SHEET_UTILIZADAS"))
+    df_ganhadas = gsheet.download_tab(Variable.get("ID_TAB_G_SHEET_GANHADAS"))
+    df_compradas = gsheet.download_tab(Variable.get("ID_TAB_G_SHEET_COMPRADAS"))
+    df_utilizadas = gsheet.download_tab(Variable.get("ID_TAB_G_SHEET_UTILIZADAS"))
 
     context['ti'].xcom_push(key=f'dataframe_ganhadas', value=df_ganhadas)
     context['ti'].xcom_push(key=f'dataframe_compradas', value=df_compradas)
@@ -38,8 +36,8 @@ def carregamento(**context):
     json_data = context['ti'].xcom_pull(key='json_data', task_ids='transformacao_tabs_json')
     
     load.atualizar_documento(
-        os.getenv("FIRESTORE_COLLECTION_NAME"),
-        os.getenv("FIRESTORE_DOCUMENT_ID"),
+        Variable.get("FIRESTORE_COLLECTION_NAME"),
+        Variable.get("FIRESTORE_DOCUMENT_ID"),
         json_data
     )
 
