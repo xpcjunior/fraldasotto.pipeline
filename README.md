@@ -19,15 +19,18 @@ Para conseguir executar esta aplicação, você precisará de:
 
 2. Esta aplicação necessita de algumas informações sigilosas, por isso utilizei variáveis do Airflow para protegê-las, as quais você deve preencher com suas próprias informações. Em seu Astronomer ou Airflow configure as seguintes variáveis:
 
-- **ID_G_SHEET:** Este é o ID da sua planinha no Google Sheets;
-- **ID_TAB_G_SHEET_GANHADAS:** Este é o ID da aba onde estão as fraldas ganhadas;
-- **ID_TAB_G_SHEET_COMPRADAS:** Este é o ID da aba onde estão as fraldas compradas;
-- **ID_TAB_G_SHEET_UTILIZADAS:** Este é o ID da aba onde estão as fraldas utilizadas;
-- **FIRESTORE_COLLECTION_NAME:** Este é o nome da coleção no Firestore onde os dados tratados serão salvos;
-- **FIRESTORE_DOCUMENT_ID:** Este é o nome do documento que será sempre atualizado no Firestore;
+```properties
+ID_G_SHEET = Este é o ID da sua planinha no Google Sheets
+ID_TAB_G_SHEET_GANHADAS = Este é o ID da aba onde estão as fraldas ganhadas
+ID_TAB_G_SHEET_COMPRADAS = Este é o ID da aba onde estão as fraldas compradas
+ID_TAB_G_SHEET_UTILIZADAS = Este é o ID da aba onde estão as fraldas utilizadas
+FIRESTORE_COLLECTION_NAME = Este é o nome da coleção no Firestore onde os dados tratados serão salvos
+FIRESTORE_DOCUMENT_ID = Este é o nome do documento que será sempre atualizado no Firestore
+```
 
 3. Recomendo fortemente que você crie um ambiente virtual do Python em sua máquina (venv) e execute o comando a baixo para instalar todas as dependências necessárias para o funcionamento do pipeline:
-```
+
+```bash
 pip install -r requirements.txt
 ```
 
