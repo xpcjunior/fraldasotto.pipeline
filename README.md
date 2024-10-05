@@ -2,51 +2,42 @@
 
 Pipeline ETL para ingestão de dados de abas de uma planilha do Google Sheet e carregamento de informações obtidas a partir do tratamento destes em uma base de dados NoSQL, o Google Firestore. Estes dados são de registros de ganho, compra e utilização de fraldas do meu primeiro filho, Otto, em sua jornada até o desfraldamento.
 
-Overview
-========
+![image](/readme_itens/diagrama.gif)
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+## Requisitos:
 
-Project Contents
-================
+Para conseguir executar esta aplicação, você precisará de:
 
-Your Astro project contains the following files and folders:
+- Uma conta no [Astronomer.io](https://cloud.astronomer.io/) ou AirFlow instalado;
+- Possuir o astronomer CLI instalado em seu ambiente, caso tenha optado pelo Astronomer;
+- Uma aplicação no [Firebase](https://console.firebase.google.com) com uma base de dados Firestore habilitada;
+- Python;
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+## Configuração
 
-Deploy Your Project Locally
-===========================
+1. Duplique e renomeie a duplicata do aquivo [firebase-adminsdk.example.json](/firebase-adminsdk.example.json) para **firebase-adminsdk.json**. Substitua os valores contidos no arquivo pelos valores obtidos no seu Firebase Console. Este arquivo é responsável pela conexão com sua base de dados Firestore.
 
-1. Start Airflow on your local machine by running 'astro dev start'.
+2. Esta aplicação necessita de algumas informações sigilosas, por isso utilizei variáveis do Airflow para protegê-las, as quais você deve preencher com suas próprias informações. Em seu Astronomer ou Airflow configure as seguintes variáveis:
 
-This command will spin up 4 Docker containers on your machine, each for a different Airflow component:
+- **ID_G_SHEET:** Este é o ID da sua planinha no Google Sheets;
+- **ID_TAB_G_SHEET_GANHADAS:** Este é o ID da aba onde estão as fraldas ganhadas;
+- **ID_TAB_G_SHEET_COMPRADAS:** Este é o ID da aba onde estão as fraldas compradas;
+- **ID_TAB_G_SHEET_UTILIZADAS:** Este é o ID da aba onde estão as fraldas utilizadas;
+- **FIRESTORE_COLLECTION_NAME:** Este é o nome da coleção no Firestore onde os dados tratados serão salvos;
+- **FIRESTORE_DOCUMENT_ID:** Este é o nome do documento que será sempre atualizado no Firestore;
 
-- Postgres: Airflow's Metadata Database
-- Webserver: The Airflow component responsible for rendering the Airflow UI
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+3. Recomendo fortemente que você crie um ambiente virtual do Python em sua máquina (venv) e execute o comando a baixo para instalar todas as dependências necessárias para o funcionamento do pipeline:
+```
+pip install -r requirements.txt
+```
 
-2. Verify that all 4 Docker containers were created by running 'docker ps'.
+## Astronomer
 
-Note: Running 'astro dev start' will start your project with the Airflow Webserver exposed at port 8080 and Postgres exposed at port 5432. If you already have either of those ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
+O Astronomer é uma ferramenta web online grátis para utilização do Airflow. Através dela é possível criar seus pipelines online, fazendo a gestão pela própria interface do Astronomer ou do Airflow. Ela foi utilizada neste projeto e você pode saber mais sobre em [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
 
-3. Access the Airflow UI for your local Airflow project. To do so, go to http://localhost:8080/ and log in with 'admin' for both your Username and Password.
+## Visualizando o resultado deste pipeline
 
-You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
+Este projeto possui uma aplicação frontend em Angular que exibe as informações tratadas da base de dados Firestore. 
 
-Deploy Your Project to Astronomer
-=================================
-
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
-
-Contact
-=======
-
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+- Confira [aqui](https://github.com/xpcjunior/fraldasotto.frontend) o código-fonte dela
+- Confira [aqui](https://fraldas-otto.web.app/) a aplicação rodando
