@@ -1,6 +1,6 @@
 import pandas as pd
 from pandas import DataFrame
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Transform():
@@ -32,9 +32,10 @@ class Transform():
 
         df_estoque_gp['qtd_restante'] = df_estoque_gp['quantidade'] - df_estoque_gp['quantidade_utilizadas']
         
+        data_hora_fuso = datetime.now() + timedelta(hours=-3)
         
         return {
-            "data": datetime.now().strftime("%d/%m/%Y %H:%M"),
+            "data": data_hora_fuso.strftime("%d/%m/%Y %H:%M"),
             "relatorio": [
                 {
                     "tamanho": "RN",
