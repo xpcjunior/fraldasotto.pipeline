@@ -1,11 +1,16 @@
+from datetime import timedelta
 import pandas as pd
 from pandas import DataFrame
-from datetime import datetime, timedelta
+import pendulum
 
 
 class Transform():
 
-    def __init__(self, df_ganhadas: DataFrame, df_compradas: DataFrame, df_utilizadas: DataFrame) -> None:
+    def __init__(
+            self, data_execucao_dag: str,
+            df_ganhadas: DataFrame, df_compradas: DataFrame, df_utilizadas: DataFrame
+    ) -> None:
+        self.__data_execucao_dag = pendulum.parse(data_execucao_dag)
         self.__df_ganhadas = df_ganhadas
         self.__df_compradas = df_compradas
         self.__df_utilizadas = df_utilizadas
@@ -32,7 +37,7 @@ class Transform():
 
         df_estoque_gp['qtd_restante'] = df_estoque_gp['quantidade'] - df_estoque_gp['quantidade_utilizadas']
         
-        data_hora_fuso = datetime.now() + timedelta(hours=-3)
+        data_hora_fuso = self.__data_execucao_dag + timedelta(hours=-3)
         
         return {
             "data": data_hora_fuso.strftime("%d/%m/%Y %H:%M"),
