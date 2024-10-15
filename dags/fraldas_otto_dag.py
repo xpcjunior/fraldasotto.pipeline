@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.models import TaskInstance, Variable
 from airflow.operators.python import PythonOperator
-from datetime import datetime
+from airflow.utils.dates import days_ago
 
 from include.gsheettab import GSheetTab
 from include.transform import Transform
@@ -44,7 +44,7 @@ with DAG(
     'fraldas_otto_teste',
     default_args={
         'owner': 'airflow',
-        'start_date': datetime(2024, 9, 26),
+        'start_date': days_ago(1),
         'retries': 1
     },
     schedule_interval='@daily',
