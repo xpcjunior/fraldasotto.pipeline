@@ -1,17 +1,15 @@
-import os
+from airflow.providers.google.common.hooks.base_google import GoogleBaseHook
 from google.cloud import firestore
-from google.oauth2 import service_account
+
 
 class Load:
     def __init__(self):
-        caminho_json = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), # pwd
-            '..',
-            "firebase-adminsdk.json"
-        )
+        self.hook = GoogleBaseHook(gcp_conn_id="fraldas_otto_firestore")
 
-        credentials = service_account.Credentials.from_service_account_file(caminho_json)
-        self.db = firestore.Client(credentials=credentials, project=credentials.project_id)
+        self.db = firestore.Client(
+            credentials=self.hook.get_credentials(),
+            project=self.hook.project_id
+        )
 
     def atualizar_documento(self, collection_name, document_id, dados_atualizados):
         """
