@@ -11,5 +11,7 @@ webserver_config.py
 airflow.cfg
 airflow.db
 .python-version
+logs/*
+!logs/.gitkeep
 # Firestore
 firebase-adminsdk.json

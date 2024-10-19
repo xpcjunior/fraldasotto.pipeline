@@ -10,3 +10,4 @@ airflow.cfg
 .python-version
 notebooks/
 firebase-adminsdk.example.json
+include/__pycache__

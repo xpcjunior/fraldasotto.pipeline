@@ -1,1 +1,4 @@
-FROM quay.io/astronomer/astro-runtime:12.1.1
+FROM apache/airflow:2.10.2
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt

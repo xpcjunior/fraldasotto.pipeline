@@ -8,9 +8,29 @@ Pipeline ETL para ingestão de dados de abas de uma planilha do Google Sheet e c
 
 Para conseguir executar esta aplicação, você precisará de:
 
-- AirFlow instalado;
-- Uma aplicação no [Firebase](https://console.firebase.google.com) com uma base de dados Firestore habilitada;
+- Docker (com docker compose);
 - Python;
+- Uma aplicação no [Firebase](https://console.firebase.google.com) com uma base de dados Firestore habilitada;
+
+## Executando o projeto
+
+1. Duplique o arquivo [.env.example](.env.example) e renomeie a duplicata para _.env_. Ajuste os valores caso necessário. Estas variáveis de ambiente são necessárias para o comando a seguir.
+
+2. Realize o comando abaixo, caso seja a primeira vez executando o projeto, ele é necessário para a criação inicial dos containers do Airflow:
+
+```bash
+docker compose up airflow-init
+```
+
+3. O comando a seguir é responsável por deixar todos os containers restantes ativos e o ambiente pronto para ser utilizado. O parâmetro "-d" serve para liberar o terminal para utilização, remova-o caso queira:
+
+```bash
+docker compose up -d
+```
+
+4. O Airflow ficará acessível na URL abaixo:
+
+[http://localhost:8080/home](http://localhost:8080/home)
 
 ## Configuração
 
