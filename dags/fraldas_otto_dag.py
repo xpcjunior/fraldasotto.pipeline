@@ -9,7 +9,7 @@ from include.load import Load
 
 
 load = Load()
-gsheet = GSheetTab(Variable.get("ID_G_SHEET"))
+gsheet = GSheetTab()
 
 def extracao(ti: TaskInstance = None):
     df_ganhadas = gsheet.download_tab(Variable.get("ID_TAB_G_SHEET_GANHADAS"))

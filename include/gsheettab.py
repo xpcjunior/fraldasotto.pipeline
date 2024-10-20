@@ -6,7 +6,7 @@ from pandas import DataFrame
 
 class GSheetTab():
 
-    def __init__(self, id: str) -> None:
+    def __init__(self) -> None:
         self.http_hook = HttpHook(
             method="GET",
             http_conn_id="fraldas_otto_gsheet"
